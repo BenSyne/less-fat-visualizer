@@ -37,6 +37,8 @@
     .gradient-bg {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
+    .blur-animate { transition: filter 900ms ease, opacity 400ms ease; }
+    .blur-20 { filter: blur(18px); }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -64,13 +66,30 @@
           <p class="text-sm text-gray-400">Supports: JPEG, PNG, WebP (10MB max)</p>
         </div>
         <div id="uploadPreview" class="hidden">
-          <div class="image-circle w-64 h-64 mx-auto mb-4">
-            <img id="previewImage" src="" alt="Preview" class="w-full h-full object-cover">
+          <div id="inlineGrid" class="mx-auto mb-4 grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-items-center">
+            <div class="image-circle w-64 h-64">
+              <img id="previewImage" src="" alt="Preview" class="w-full h-full object-cover">
+            </div>
+            <div class="image-circle w-64 h-64 relative hidden" id="inlineResultContainer">
+              <img id="inlineAfterImage" src="" alt="Processing" class="w-full h-full object-cover blur-animate blur-20">
+              <div id="inlineProcessingOverlay" class="absolute inset-0 flex items-center justify-center text-center bg-white/60 backdrop-blur-sm rounded-full px-4">
+                <div>
+                  <div class="loader mx-auto mb-4"></div>
+                  <p id="inlineOverlayText" class="text-sm text-gray-700">Preparing your AI weight loss transformation…</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="text-lg font-medium text-gray-700 mb-4">Photo uploaded successfully!</p>
-          <button id="transformBtn" class="gradient-bg text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
-            See Your Transformation →
-          </button>
+          <p id="uploadMsg" class="text-lg font-medium text-gray-700 mb-4">Photo uploaded successfully!</p>
+          <div class="space-x-3">
+            <button id="transformBtn" class="gradient-bg text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
+              See Your Transformation →
+            </button>
+            <span id="inlineActions" class="hidden">
+              <button id="downloadBtnInline" class="gradient-bg text-white px-6 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all">⬇ Download Result</button>
+              <button id="tryAgainBtnInline" class="bg-white text-purple-600 border-2 border-purple-600 px-6 py-3 rounded-full font-semibold text-lg hover:bg-purple-50 transition-all">📸 Try Another Photo</button>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -182,6 +201,13 @@
     const afterImage = document.getElementById('afterImage');
     const downloadBtn = document.getElementById('downloadBtn');
     const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const inlineResultContainer = document.getElementById('inlineResultContainer');
+    const inlineAfterImage = document.getElementById('inlineAfterImage');
+    const inlineProcessingOverlay = document.getElementById('inlineProcessingOverlay');
+    const inlineOverlayText = document.getElementById('inlineOverlayText');
+    const inlineActions = document.getElementById('inlineActions');
+    const downloadBtnInline = document.getElementById('downloadBtnInline');
+    const tryAgainBtnInline = document.getElementById('tryAgainBtnInline');
     
     // Upload area click
     uploadArea.addEventListener('click', () => {
@@ -230,9 +256,14 @@
     transformBtn.addEventListener('click', async () => {
       if (!uploadedFile) return;
       
-      // Show processing section
-      uploadSection.classList.add('hidden');
-      processingSection.classList.remove('hidden');
+      // Inline processing animation: show second circle next to original
+      const msg = document.getElementById('uploadMsg');
+      if (msg) msg.textContent = 'Preparing your transformation…';
+      inlineResultContainer.classList.remove('hidden');
+      inlineAfterImage.src = uploadedImageUrl; // start with blurred copy of original
+      inlineAfterImage.classList.add('blur-20');
+      inlineProcessingOverlay.classList.remove('hidden');
+      if (inlineOverlayText) inlineOverlayText.textContent = 'Preparing your AI weight loss transformation…';
       
       // Start transformation
       await startTransformation();
@@ -293,18 +324,21 @@
           
           // Update status text
           if (progress < 30) {
-            statusText.textContent = 'Analyzing your photo...';
+            if (statusText) statusText.textContent = 'Analyzing your photo...';
+            if (inlineOverlayText) inlineOverlayText.textContent = 'Analyzing your photo…';
           } else if (progress < 70) {
-            statusText.textContent = 'Creating transformation...';
+            if (statusText) statusText.textContent = 'Creating transformation...';
+            if (inlineOverlayText) inlineOverlayText.textContent = 'Creating transformation…';
           } else {
-            statusText.textContent = 'Almost ready...';
+            if (statusText) statusText.textContent = 'Almost ready...';
+            if (inlineOverlayText) inlineOverlayText.textContent = 'Almost ready…';
           }
           
           // Check if completed
           if (data.status === 'completed') {
             clearInterval(pollInterval);
             progressBar.style.width = '100%';
-            showResults(data.originalUrl, data.resultUrl);
+            revealInline(data.originalUrl, data.resultUrl);
           } else if (data.status === 'failed') {
             clearInterval(pollInterval);
             alert(data.error || 'Transformation failed. Please try again.');
@@ -316,23 +350,35 @@
       }, 3000); // Poll every 3 seconds
     }
     
-    // Show results
-    function showResults(original, result) {
-      processingSection.classList.add('hidden');
-      resultsSection.classList.remove('hidden');
+    // Inline reveal
+    function revealInline(original, result) {
+      // Persist locally
+      try {
+        localStorage.setItem('lessfat_before', original || uploadedImageUrl);
+        localStorage.setItem('lessfat_after', result);
+      } catch {}
+      if (inlineOverlayText) inlineOverlayText.textContent = 'Revealing your transformation…';
+      inlineAfterImage.classList.add('blur-20');
+      inlineAfterImage.src = result;
+      setTimeout(() => {
+        inlineAfterImage.classList.remove('blur-20');
+      }, 350);
+      setTimeout(() => {
+        inlineProcessingOverlay.classList.add('hidden');
+        inlineActions.classList.remove('hidden');
+      }, 900);
+      // Keep results grid in sync (optional view)
       beforeImage.src = original || uploadedImageUrl;
       afterImage.src = result;
-      // Persist to localStorage (client-side only)
-      try {
-        localStorage.setItem('lessfat_before', beforeImage.src);
-        localStorage.setItem('lessfat_after', afterImage.src);
-      } catch (e) {
-        console.warn('localStorage unavailable or quota exceeded');
-      }
-      // Ask server to clean up any in-memory data for this job
-      if (jobId) {
-        fetch(`${API_BASE_URL}/job/${jobId}`, { method: 'DELETE' }).catch(() => {});
-      }
+      if (jobId) fetch(`${API_BASE_URL}/job/${jobId}`, { method: 'DELETE' }).catch(() => {});
+      // Inline actions
+      downloadBtnInline.onclick = () => {
+        const link = document.createElement('a');
+        link.href = afterImage.src || inlineAfterImage.src || result;
+        link.download = 'weight-loss-transformation.png';
+        link.click();
+      };
+      tryAgainBtnInline.onclick = resetToUpload;
     }
     
     // Download result
@@ -366,6 +412,10 @@
       previewImage.src = '';
       photoInput.value = '';
       progressBar.style.width = '0%';
+      inlineProcessingOverlay.classList.add('hidden');
+      inlineAfterImage.classList.remove('blur-20');
+      inlineResultContainer.classList.add('hidden');
+      inlineActions.classList.add('hidden');
     }
   </script>
 </body>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLP-1 Weight Loss Visualization - See Yourself 20% Lighter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .image-circle {
+      border-radius: 50%;
+      overflow: hidden;
+      border: 6px solid white;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .upload-area {
+      transition: all 0.3s ease;
+    }
+    
+    .upload-area:hover {
+      transform: scale(1.02);
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loader {
+      border: 4px solid #E5E7EB;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  
+  <!-- Landing/Upload Section -->
+  <div id="uploadSection" class="container mx-auto px-4 py-16 max-w-4xl">
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold text-gray-900 mb-4">
+        🏋️ See Yourself 20% Lighter
+      </h1>
+      <p class="text-2xl text-gray-600 mb-2">in 60 Seconds</p>
+      <p class="text-lg text-gray-500">GLP-1 weight loss results preview powered by AI</p>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+      <div id="uploadArea" 
+           class="upload-area border-3 border-dashed border-gray-300 rounded-xl bg-gray-50 p-16 text-center cursor-pointer">
+        <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" class="hidden">
+        <div id="uploadPrompt">
+          <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p class="text-xl font-semibold text-gray-700 mb-2">📸 Drag & Drop Your Photo Here</p>
+          <p class="text-gray-500 mb-4">or click to browse files</p>
+          <p class="text-sm text-gray-400">Supports: JPEG, PNG, WebP (10MB max)</p>
+        </div>
+        <div id="uploadPreview" class="hidden">
+          <div class="image-circle w-64 h-64 mx-auto mb-4">
+            <img id="previewImage" src="" alt="Preview" class="w-full h-full object-cover">
+          </div>
+          <p class="text-lg font-medium text-gray-700 mb-4">Photo uploaded successfully!</p>
+          <button id="transformBtn" class="gradient-bg text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
+            See Your Transformation →
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-6 text-center">
+      <div class="bg-white rounded-lg p-6 shadow-md">
+        <div class="text-3xl mb-2">⚡</div>
+        <p class="font-semibold text-gray-800">Instant AI transformation</p>
+        <p class="text-sm text-gray-500">~60 seconds</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-md">
+        <div class="text-3xl mb-2">🔒</div>
+        <p class="font-semibold text-gray-800">Private & secure</p>
+        <p class="text-sm text-gray-500">Your photos are safe</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-md">
+        <div class="text-3xl mb-2">🎨</div>
+        <p class="font-semibold text-gray-800">Photorealistic results</p>
+        <p class="text-sm text-gray-500">Powered by Gemini AI</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Processing Section -->
+  <div id="processingSection" class="hidden container mx-auto px-4 py-16 max-w-4xl">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">Creating Your Transformation...</h2>
+      <div class="loader mx-auto mb-6"></div>
+      <div class="max-w-md mx-auto mb-6">
+        <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div id="progressBar" class="h-full gradient-bg transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+      <p id="statusText" class="text-lg text-gray-600 mb-2">Analyzing your photo...</p>
+      <p class="text-sm text-gray-500">Estimated time: <span id="timeRemaining">60</span> seconds</p>
+    </div>
+  </div>
+  
+  <!-- Results Section -->
+  <div id="resultsSection" class="hidden container mx-auto px-4 py-16 max-w-6xl">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-900 mb-2">Your Transformation is Ready! 🎉</h2>
+      <p class="text-gray-600">Here's what you could look like 20% lighter</p>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-12 mb-12">
+      <!-- Before -->
+      <div class="text-center">
+        <div class="image-circle w-80 h-80 mx-auto mb-6">
+          <img id="beforeImage" src="" alt="Before: Original photo" class="w-full h-full object-cover">
+        </div>
+        <p class="text-xl font-semibold text-gray-700 uppercase tracking-wide">Today</p>
+      </div>
+      
+      <!-- After -->
+      <div class="text-center">
+        <div class="image-circle w-80 h-80 mx-auto mb-6">
+          <img id="afterImage" src="" alt="After: 20% lighter" class="w-full h-full object-cover">
+        </div>
+        <p class="text-xl font-semibold text-gray-700 uppercase tracking-wide">Your Future You</p>
+        <p class="text-sm text-gray-500">(20% lighter)</p>
+      </div>
+    </div>
+    
+    <div class="text-center space-x-4">
+      <button id="downloadBtn" class="gradient-bg text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
+        ⬇ Download Result
+      </button>
+      <button id="tryAgainBtn" class="bg-white text-purple-600 border-2 border-purple-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-purple-50 transition-all">
+        📸 Try Another Photo
+      </button>
+    </div>
+    
+    <div class="mt-12 text-center max-w-2xl mx-auto">
+      <p class="text-sm text-gray-500 italic">
+        * This is an AI visualization for motivational purposes only, not a medical prediction. 
+        Actual weight loss results vary by individual. Always consult with a healthcare professional 
+        before starting any weight loss program.
+      </p>
+    </div>
+  </div>
+  
+  <script>
+    // State management
+    let uploadedFile = null;
+    let uploadedImageUrl = null;
+    let jobId = null;
+    let pollInterval = null;
+    
+    // API Configuration
+    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:3000/api'
+      : '/api';
+    
+    // Elements
+    const uploadArea = document.getElementById('uploadArea');
+    const photoInput = document.getElementById('photoInput');
+    const uploadPrompt = document.getElementById('uploadPrompt');
+    const uploadPreview = document.getElementById('uploadPreview');
+    const previewImage = document.getElementById('previewImage');
+    const transformBtn = document.getElementById('transformBtn');
+    const uploadSection = document.getElementById('uploadSection');
+    const processingSection = document.getElementById('processingSection');
+    const resultsSection = document.getElementById('resultsSection');
+    const progressBar = document.getElementById('progressBar');
+    const statusText = document.getElementById('statusText');
+    const timeRemaining = document.getElementById('timeRemaining');
+    const beforeImage = document.getElementById('beforeImage');
+    const afterImage = document.getElementById('afterImage');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    
+    // Upload area click
+    uploadArea.addEventListener('click', () => {
+      if (!uploadedFile) photoInput.click();
+    });
+    
+    // Drag and drop
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('border-purple-500', 'bg-purple-50');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        handleFileUpload(file);
+      }
+    });
+    
+    // File input change
+    photoInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) handleFileUpload(file);
+    });
+    
+    // Handle file upload
+    function handleFileUpload(file) {
+      uploadedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        uploadedImageUrl = e.target.result;
+        previewImage.src = uploadedImageUrl;
+        uploadPrompt.classList.add('hidden');
+        uploadPreview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    // Transform button
+    transformBtn.addEventListener('click', async () => {
+      if (!uploadedFile) return;
+      
+      // Show processing section
+      uploadSection.classList.add('hidden');
+      processingSection.classList.remove('hidden');
+      
+      // Start transformation
+      await startTransformation();
+    });
+    
+    // Start transformation (API call)
+    async function startTransformation() {
+      try {
+        // Upload image first
+        const formData = new FormData();
+        formData.append('photo', uploadedFile);
+        
+        const uploadResponse = await fetch(`${API_BASE_URL}/upload-photo`, {
+          method: 'POST',
+          body: formData
+        });
+        
+        const uploadData = await uploadResponse.json();
+        
+        // Start transformation job
+        const transformResponse = await fetch(`${API_BASE_URL}/transform`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageId: uploadData.imageId,
+            transformationType: 'weight-loss',
+            amount: 20
+          })
+        });
+        
+        const transformData = await transformResponse.json();
+        jobId = transformData.jobId;
+        
+        // Start polling for status
+        startPolling();
+      } catch (error) {
+        console.error('Error starting transformation:', error);
+        alert('Failed to start transformation. Please try again.');
+        resetToUpload();
+      }
+    }
+    
+    // Poll job status
+    function startPolling() {
+      let progress = 0;
+      let timeLeft = 75;
+      
+      pollInterval = setInterval(async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/job-status/${jobId}`);
+          const data = await response.json();
+          
+          // Update progress
+          progress = Math.min(progress + 5, 95);
+          progressBar.style.width = `${progress}%`;
+          timeLeft = Math.max(timeLeft - 3, 0);
+          timeRemaining.textContent = timeLeft;
+          
+          // Update status text
+          if (progress < 30) {
+            statusText.textContent = 'Analyzing your photo...';
+          } else if (progress < 70) {
+            statusText.textContent = 'Creating transformation...';
+          } else {
+            statusText.textContent = 'Almost ready...';
+          }
+          
+          // Check if completed
+          if (data.status === 'completed') {
+            clearInterval(pollInterval);
+            progressBar.style.width = '100%';
+            showResults(data.originalUrl, data.resultUrl);
+          } else if (data.status === 'failed') {
+            clearInterval(pollInterval);
+            alert(data.error || 'Transformation failed. Please try again.');
+            resetToUpload();
+          }
+        } catch (error) {
+          console.error('Error polling status:', error);
+        }
+      }, 3000); // Poll every 3 seconds
+    }
+    
+    // Show results
+    function showResults(original, result) {
+      processingSection.classList.add('hidden');
+      resultsSection.classList.remove('hidden');
+      beforeImage.src = original || uploadedImageUrl;
+      afterImage.src = result;
+      // Persist to localStorage (client-side only)
+      try {
+        localStorage.setItem('lessfat_before', beforeImage.src);
+        localStorage.setItem('lessfat_after', afterImage.src);
+      } catch (e) {
+        console.warn('localStorage unavailable or quota exceeded');
+      }
+      // Ask server to clean up any in-memory data for this job
+      if (jobId) {
+        fetch(`${API_BASE_URL}/job/${jobId}`, { method: 'DELETE' }).catch(() => {});
+      }
+    }
+    
+    // Download result
+    downloadBtn.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.href = afterImage.src;
+      link.download = 'weight-loss-transformation.png';
+      link.click();
+    });
+    
+    // Try again
+    tryAgainBtn.addEventListener('click', resetToUpload);
+    
+    // Reset to upload
+    function resetToUpload() {
+      uploadedFile = null;
+      uploadedImageUrl = null;
+      jobId = null;
+      if (pollInterval) clearInterval(pollInterval);
+      try {
+        localStorage.removeItem('lessfat_before');
+        localStorage.removeItem('lessfat_after');
+      } catch {}
+      
+      resultsSection.classList.add('hidden');
+      processingSection.classList.add('hidden');
+      uploadSection.classList.remove('hidden');
+      
+      uploadPrompt.classList.remove('hidden');
+      uploadPreview.classList.add('hidden');
+      previewImage.src = '';
+      photoInput.value = '';
+      progressBar.style.width = '0%';
+    }
+  </script>
+</body>
+</html>

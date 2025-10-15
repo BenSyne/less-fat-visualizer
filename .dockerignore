@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+logs
+uploads
+results
+.env
+.npm-cache
+.DS_Store
+.git
+.claude
+Server

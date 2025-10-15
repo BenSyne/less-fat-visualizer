@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  less-fat:
+    build: .
+    container_name: less-fat
+    ports:
+      - "3000:3000"
+    environment:
+      # Bind inside container
+      - HOST=0.0.0.0
+      - PORT=3000
+      # Set this in your environment or Coolify secrets
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      # Optional: choose a model; defaults in server.js are safe
+      # - OPENROUTER_MODEL=google/gemini-2.5-flash-image-preview
+      # Optional: allow fallback to original when no image is generated
+      # - ALLOW_FALLBACK_ORIGINAL=false
+      # Optional: mock mode for local testing without external calls
+      # - MOCK_AI=false
+    restart: unless-stopped
+

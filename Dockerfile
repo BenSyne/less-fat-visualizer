@@ -5,7 +5,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production deps
-RUN npm ci --omit=dev
+# Prefer lockfile build; fall back to install if lockfile is absent
+RUN npm ci --omit=dev || npm install --omit=dev
 
 # Copy app source
 COPY . .
@@ -24,4 +25,3 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 # Start the server
 CMD ["node","server.js"]
-

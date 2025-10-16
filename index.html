@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GLP-1 Weight Loss Visualization - See Yourself 20% Lighter</title>
+  <title>DirectMed | GLP‑1 Weight Loss Preview</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .image-circle {
@@ -35,22 +35,30 @@
     }
     
     .gradient-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0ea5e9 0%, #7c3aed 100%);
     }
     .blur-animate { transition: filter 900ms ease, opacity 400ms ease; }
     .blur-20 { filter: blur(18px); }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur shadow">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg gradient-bg"></div>
+        <div class="text-lg md:text-xl font-bold text-gray-900">DirectMed</div>
+      </div>
+      <a href="#uploadSection" class="hidden md:inline-block gradient-bg text-white px-5 py-2 rounded-full font-semibold shadow-md hover:shadow-lg">Start Free Preview</a>
+    </div>
+  </header>
   
   <!-- Landing/Upload Section -->
-  <div id="uploadSection" class="container mx-auto px-4 py-16 max-w-4xl">
-    <div class="text-center mb-12">
-      <h1 class="text-5xl font-bold text-gray-900 mb-4">
-        🏋️ See Yourself 20% Lighter
-      </h1>
-      <p class="text-2xl text-gray-600 mb-2">in 60 Seconds</p>
-      <p class="text-lg text-gray-500">GLP-1 weight loss results preview powered by AI</p>
+  <div id="uploadSection" class="container mx-auto px-4 py-16 max-w-6xl">
+    <div class="text-center mb-10">
+      <p class="uppercase tracking-widest text-sm font-semibold text-indigo-600 mb-2">DirectMed GLP‑1 Program</p>
+      <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">See Your Future Self — Thinner, Fitter, Healthier</h1>
+      <p class="text-lg text-gray-600">FDA‑approved GLP‑1 care with board‑certified clinicians, delivered via telehealth.</p>
     </div>
     
     <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
@@ -61,9 +69,9 @@
           <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" stroke="currentColor" fill="none" viewBox="0 0 48 48">
             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <p class="text-xl font-semibold text-gray-700 mb-2">📸 Drag & Drop Your Photo Here</p>
+          <p class="text-xl font-semibold text-gray-700 mb-2">📸 Drag & drop a photo to preview your GLP‑1 results</p>
           <p class="text-gray-500 mb-4">or click to browse files</p>
-          <p class="text-sm text-gray-400">Supports: JPEG, PNG, WebP (10MB max)</p>
+          <p class="text-sm text-gray-400">Supports: JPEG, PNG, WebP (10MB max) • Private: image stays on your device</p>
         </div>
         <div id="uploadPreview" class="hidden">
           <div id="inlineGrid" class="mx-auto mb-4 grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-items-center">
@@ -80,7 +88,7 @@
               </div>
             </div>
           </div>
-          <p id="uploadMsg" class="text-lg font-medium text-gray-700 mb-4">Photo uploaded successfully!</p>
+          <p id="uploadMsg" class="text-lg font-medium text-gray-700 mb-4">Photo uploaded! When ready, we’ll reveal the new you →</p>
           <div class="space-x-3">
             <button id="transformBtn" class="gradient-bg text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
               See Your Transformation →
@@ -95,20 +103,20 @@
     </div>
     
     <div class="grid md:grid-cols-3 gap-6 text-center">
-      <div class="bg-white rounded-lg p-6 shadow-md">
+      <div class="bg-white rounded-lg p-6 shadow-md border border-gray-100">
         <div class="text-3xl mb-2">⚡</div>
-        <p class="font-semibold text-gray-800">Instant AI transformation</p>
-        <p class="text-sm text-gray-500">~60 seconds</p>
+        <p class="font-semibold text-gray-800">Fast visual preview</p>
+        <p class="text-sm text-gray-500">See yourself slimmer in ~60 seconds</p>
       </div>
-      <div class="bg-white rounded-lg p-6 shadow-md">
+      <div class="bg-white rounded-lg p-6 shadow-md border border-gray-100">
+        <div class="text-3xl mb-2">🩺</div>
+        <p class="font-semibold text-gray-800">Clinician‑guided GLP‑1</p>
+        <p class="text-sm text-gray-500">Board‑certified providers with ongoing care</p>
+      </div>
+      <div class="bg-white rounded-lg p-6 shadow-md border border-gray-100">
         <div class="text-3xl mb-2">🔒</div>
-        <p class="font-semibold text-gray-800">Private & secure</p>
-        <p class="text-sm text-gray-500">Your photos are safe</p>
-      </div>
-      <div class="bg-white rounded-lg p-6 shadow-md">
-        <div class="text-3xl mb-2">🎨</div>
-        <p class="font-semibold text-gray-800">Photorealistic results</p>
-        <p class="text-sm text-gray-500">Powered by Gemini AI</p>
+        <p class="font-semibold text-gray-800">Private by design</p>
+        <p class="text-sm text-gray-500">Memory‑only processing, HIPAA‑grade standards</p>
       </div>
     </div>
   </div>
@@ -163,14 +171,46 @@
       </button>
     </div>
     
-    <div class="mt-12 text-center max-w-2xl mx-auto">
-      <p class="text-sm text-gray-500 italic">
-        * This is an AI visualization for motivational purposes only, not a medical prediction. 
-        Actual weight loss results vary by individual. Always consult with a healthcare professional 
-        before starting any weight loss program.
-      </p>
+    <div class="mt-12 text-center max-w-3xl mx-auto">
+      <div class="bg-white border border-gray-100 rounded-xl p-5 text-left">
+        <p class="text-sm text-gray-600">DirectMed connects you with board‑certified clinicians for GLP‑1 weight‑loss care. This preview is for motivation, not diagnosis. Eligibility and medication are determined by a licensed provider. Results vary. See our informed consent and privacy policy for details.</p>
+      </div>
     </div>
   </div>
+  
+  <!-- FAQ -->
+  <section id="faq" class="container mx-auto px-4 py-16 max-w-4xl">
+    <h3 class="text-3xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h3>
+    <div class="space-y-4">
+      <details class="bg-white rounded-lg border border-gray-200 p-4">
+        <summary class="font-semibold cursor-pointer">Is my photo private?</summary>
+        <p class="text-gray-600 mt-2">Yes. We process uploads in memory and return an image data URL to your browser. The client stores it in localStorage and we immediately clean up server memory.</p>
+      </details>
+      <details class="bg-white rounded-lg border border-gray-200 p-4">
+        <summary class="font-semibold cursor-pointer">What medications are used?</summary>
+        <p class="text-gray-600 mt-2">DirectMed clinicians prescribe FDA‑approved GLP‑1 medications when clinically appropriate. Your eligibility is determined during a telehealth visit.</p>
+      </details>
+      <details class="bg-white rounded-lg border border-gray-200 p-4">
+        <summary class="font-semibold cursor-pointer">How accurate is the preview?</summary>
+        <p class="text-gray-600 mt-2">It’s a motivational visualization, not a guarantee. It keeps your identity and scene unchanged and aims to show a realistic slimmer version of you.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200 py-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500">
+      <div class="flex items-center space-x-2">
+        <div class="w-7 h-7 rounded-lg gradient-bg"></div>
+        <span>© <span id="year"></span> DirectMed. All rights reserved.</span>
+      </div>
+      <div class="space-x-4 mt-4 md:mt-0">
+        <a href="#" class="hover:text-gray-700">Privacy</a>
+        <a href="#" class="hover:text-gray-700">Terms</a>
+        <a href="#faq" class="hover:text-gray-700">FAQ</a>
+      </div>
+    </div>
+  </footer>
   
   <script>
     // State management
@@ -201,6 +241,8 @@
     const afterImage = document.getElementById('afterImage');
     const downloadBtn = document.getElementById('downloadBtn');
     const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
     const inlineResultContainer = document.getElementById('inlineResultContainer');
     const inlineAfterImage = document.getElementById('inlineAfterImage');
     const inlineProcessingOverlay = document.getElementById('inlineProcessingOverlay');

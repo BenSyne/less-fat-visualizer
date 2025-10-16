@@ -225,30 +225,28 @@ async function processTransformation(jobId, image) {
     // Call OpenRouter API (Gemini for image preview/edit)
     const prompt = `You are an expert AI photo retoucher.
 
-Goal: Make the person look clearly thinner and fitter — with a noticeably slimmer FACE — while absolutely preserving the original composition and identity.
+Goal: Produce a dynamic, photorealistic body‑slimming transformation of the primary person in the photo so they look much thinner and fitter — while the photo remains the same in every other way.
 
-COMPOSITION LOCK (non‑negotiable):
-- Do NOT change crop, zoom, camera distance, or perspective.
-- Keep the subject's scale and position identical relative to the frame (no recentering or resizing of the person or background).
-- Use the exact same canvas size and aspect ratio; no outpainting/inpainting outside the original boundaries.
+Composition lock (non‑negotiable):
+- Do NOT change crop, zoom, perspective, subject position/scale, or canvas size.
+- Keep the same background, lighting, clothing style/color/logos, and pose. No outpainting, no recentering.
 
-Face‑first slimming (dramatic yet plausible):
-- Strongly reduce buccal/cheek fullness, jowls, and under‑chin fat (double chin removed or nearly removed).
-- Create a crisp, well‑defined jawline; neck visibly slimmer (but not elongated unnaturally).
-- Narrow the overall face/mid‑face width noticeably while keeping bone structure natural (never move eyes/ears).
--we want a shockingly thinner result to wow the user!!!
-Upper body if visible:
-- Reduce upper‑torso and waist circumference noticeably (one–two sizes), flatten abdomen under clothing while keeping garment folds, textures, and fit consistent.
-- Add subtle fitness cues only (e.g., gentle clavicle/cheekbone definition). No makeup or glamour smoothing.
+Dynamic adaptation — analyze the input and apply slimming to what is actually visible:
+- If face/headshot: reduce cheek fullness, jowls, under‑chin (remove or nearly remove double chin); create a crisp jawline; slim the neck; slightly narrow mid‑face width while keeping bone structure natural.
+- If upper‑body: also reduce chest/upper‑torso circumference, gently flatten abdomen under clothing, slim upper arms; maintain garment folds, seams, textures, and fit.
+- If full‑body: also slim waist/hips/thighs/calves and arms, keeping limb proportions and stance intact; preserve natural shadows/reflections and perspective.
+- If seated/cropped/unusual angle: apply consistent slimming with perspective; never move body parts or change pose.
+- If multiple people: transform only the main subject (largest/central face), leave others untouched.
 
-Preserve identity/details:
-- Hair and facial hair shape/line/density unchanged (do not trim, reshape, or blur beards).
-- Eyes, nose, mouth proportions unchanged; maintain natural skin texture and original lighting/shadows (no skin smoothing).
-- Background, clothing color/style/logos, pose, crop, and zoom unchanged.
+Fitness cues (subtle, realistic):
+- Slight contour definition along jawline/collarbones/shoulder & arm outlines; no exaggerated muscles, no makeup/beautification, no skin smoothing.
 
-In other words, make them skinny as heck. wow the user with the result!
+Identity & detail preservation:
+- Hair and facial hair shape/line/density unchanged (do not trim or blur).
+- Eyes, nose, mouth proportions unchanged; keep natural skin texture and existing lighting/shadows.
+- Clothing, background, pose, crop, and zoom must be identical to the original.
 
-Output only the transformed image (no text/watermarks/borders/collages).`;
+Output: return only the transformed image (no text, borders, watermarks, or collage).`;
 
     await log(`Calling OpenRouter API for job ${jobId} with model ${OPENROUTER_MODEL}`);
 

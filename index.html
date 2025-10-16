@@ -413,6 +413,8 @@
         localStorage.setItem('lessfat_after', result);
       } catch {}
       if (inlineOverlayText) inlineOverlayText.textContent = 'Revealing your transformation…';
+      const msg = document.getElementById('uploadMsg');
+      if (msg) msg.textContent = 'Your preview is ready!';
       inlineAfterImage.classList.add('blur-20');
       inlineAfterImage.src = result;
       setTimeout(() => {

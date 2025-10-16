@@ -61,9 +61,9 @@
       <p class="text-lg text-gray-600">FDA‑approved GLP‑1 care with board‑certified clinicians, delivered via telehealth.</p>
     </div>
     
-    <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+    <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-8 border border-gray-100">
       <div id="uploadArea" 
-           class="upload-area border-3 border-dashed border-gray-300 rounded-xl bg-gray-50 p-16 text-center cursor-pointer">
+           class="upload-area border-3 border-dashed border-gray-300 rounded-xl bg-gray-50 p-8 sm:p-12 md:p-16 text-center cursor-pointer">
         <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" class="hidden">
         <div id="uploadPrompt">
           <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" stroke="currentColor" fill="none" viewBox="0 0 48 48">
@@ -146,7 +146,7 @@
     <div class="grid md:grid-cols-2 gap-12 mb-12">
       <!-- Before -->
       <div class="text-center">
-        <div class="image-circle w-80 h-80 mx-auto mb-6">
+        <div class="image-circle w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 mx-auto mb-6">
           <img id="beforeImage" src="" alt="Before: Original photo" class="w-full h-full object-cover">
         </div>
         <p class="text-xl font-semibold text-gray-700 uppercase tracking-wide">Today</p>
@@ -154,7 +154,7 @@
       
       <!-- After -->
       <div class="text-center">
-        <div class="image-circle w-80 h-80 mx-auto mb-6">
+        <div class="image-circle w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 mx-auto mb-6">
           <img id="afterImage" src="" alt="After: 20% lighter" class="w-full h-full object-cover">
         </div>
         <p class="text-xl font-semibold text-gray-700 uppercase tracking-wide">Your Future You</p>
@@ -162,14 +162,14 @@
       </div>
     </div>
     
-    <div class="text-center space-x-4">
-      <button id="downloadBtn" class="gradient-bg text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
+      <div class="text-center space-x-2 sm:space-x-4">
+      <button id="downloadBtn" class="gradient-bg text-white px-6 sm:px-8 py-3 rounded-full font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all">
         ⬇ Download Result
       </button>
-      <button id="tryAgainBtn" class="bg-white text-purple-600 border-2 border-purple-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-purple-50 transition-all">
+      <button id="tryAgainBtn" class="bg-white text-purple-600 border-2 border-purple-600 px-6 sm:px-8 py-3 rounded-full font-semibold text-base sm:text-lg hover:bg-purple-50 transition-all">
         📸 Try Another Photo
       </button>
-    </div>
+      </div>
     
     <div class="mt-12 text-center max-w-3xl mx-auto">
       <div class="bg-white border border-gray-100 rounded-xl p-5 text-left">
@@ -211,6 +211,14 @@
       </div>
     </div>
   </footer>
+
+  <!-- Mobile sticky CTA -->
+  <div class="fixed md:hidden bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-gray-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="text-sm text-gray-700">Ready for real results with DirectMed?</div>
+      <a href="#uploadSection" class="gradient-bg text-white px-4 py-2 rounded-full font-semibold shadow-md">Start Preview</a>
+    </div>
+  </div>
   
   <script>
     // State management

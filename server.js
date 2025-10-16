@@ -236,7 +236,7 @@ Face‑first slimming (dramatic yet plausible):
 - Strongly reduce buccal/cheek fullness, jowls, and under‑chin fat (double chin removed or nearly removed).
 - Create a crisp, well‑defined jawline; neck visibly slimmer (but not elongated unnaturally).
 - Narrow the overall face/mid‑face width noticeably while keeping bone structure natural (never move eyes/ears).
-
+-we want a shockingly thinner result to wow the user!!!
 Upper body if visible:
 - Reduce upper‑torso and waist circumference noticeably (one–two sizes), flatten abdomen under clothing while keeping garment folds, textures, and fit consistent.
 - Add subtle fitness cues only (e.g., gentle clavicle/cheekbone definition). No makeup or glamour smoothing.
@@ -245,6 +245,8 @@ Preserve identity/details:
 - Hair and facial hair shape/line/density unchanged (do not trim, reshape, or blur beards).
 - Eyes, nose, mouth proportions unchanged; maintain natural skin texture and original lighting/shadows (no skin smoothing).
 - Background, clothing color/style/logos, pose, crop, and zoom unchanged.
+
+In other words, make them skinny as heck. wow the user with the result!
 
 Output only the transformed image (no text/watermarks/borders/collages).`;
 
